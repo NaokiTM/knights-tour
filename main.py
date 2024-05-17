@@ -144,7 +144,6 @@ def game_auto(SQUARES_ACROSS):
 
 
     smallest_value = 7
-    #smallest_value_position = [0,0]
 
 
     #gives coordinates of possible moves, and each one contains the number of moves available from that possible move.#
