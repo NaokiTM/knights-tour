@@ -14,8 +14,8 @@ def game_auto(SQUARES_ACROSS):
   PIXELS_ACROSS = SQUARES_ACROSS * 30
   SQUARE_SIZE = PIXELS_ACROSS // SQUARES_ACROSS 
 
-  startPosX = random.randint(0, 7)                
-  startPosY = random.randint(0, 7)
+  startPosX = random.randint(0, SQUARES_ACROSS -1)                
+  startPosY = random.randint(0, SQUARES_ACROSS -1)
   playerPos = [startPosX, startPosY]
 
 
@@ -29,6 +29,7 @@ def game_auto(SQUARES_ACROSS):
      
   def nextmove(chessBoard, playerPos):
     smallest_value = 7
+    smallest_value_position = None
     knight_moves = [(-2, -1), (-2, 1), (2, -1), (2, 1), (-1, -2), (-1, 2), (1, -2), (1, 2)]  #move patterns of the knight
 
     #calculates and stores possible moves 
@@ -59,9 +60,10 @@ def game_auto(SQUARES_ACROSS):
           smallest_value = possible_move  
           smallest_value_position = [x1, y1]
 
-    playerPos = smallest_value_position
+    if smallest_value_position:
+        playerPos = smallest_value_position
+        chessBoardVisited[playerPos[0]][playerPos[1]] = 1
 
-    chessBoardVisited[playerPos[0]][playerPos[1]] = 1
     return playerPos
   
      
