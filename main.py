@@ -32,19 +32,17 @@ def game_auto(SQUARES_ACROSS):
     smallest_value_position = None
     knight_moves = [(-2, -1), (-2, 1), (2, -1), (2, 1), (-1, -2), (-1, 2), (1, -2), (1, 2)]  #move patterns of the knight
 
-    #calculates and stores possible moves 
-    for moveset in knight_moves: 
-      possible_moves_count = 0;
-      x1, y1 = playerPos[0] + moveset[0], playerPos[1] + moveset[1] 
-      if 0 <= x1 < SQUARES_ACROSS and 0 <= y1 < SQUARES_ACROSS:
-        possible_move = [x1, y1]     
-
-        for moveset in knight_moves: #counts outer moves from each possible_move
-          x2, y2 = possible_move[0] + moveset[0], possible_move[1] + moveset[1];  
-          if 0 <= x2 < SQUARES_ACROSS and 0 <= y2 < SQUARES_ACROSS: 
-            if x2 != playerPos[0] or y2 != playerPos[1]:
-              possible_moves_count += 1
-        chessBoard[x1][y1] = possible_moves_count
+    # Calculate possible moves and count onward moves
+    for moveset in knight_moves:
+        possible_moves_count = 0
+        x1, y1 = playerPos[0] + moveset[0], playerPos[1] + moveset[1]
+        if 0 <= x1 < SQUARES_ACROSS and 0 <= y1 < SQUARES_ACROSS and chessBoardVisited[x1][y1] != 1:
+            for inner_moveset in knight_moves:  # counts outer moves from each possible_move
+                x2, y2 = x1 + inner_moveset[0], y1 + inner_moveset[1]
+                if 0 <= x2 < SQUARES_ACROSS and 0 <= y2 < SQUARES_ACROSS:
+                    if chessBoardVisited[x2][y2] == 0:
+                        possible_moves_count += 1
+            chessBoard[x1][y1] = possible_moves_count
 
     #finds the smallest move and moves the player to this square. 
     for moveset in knight_moves:
