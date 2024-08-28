@@ -34,9 +34,7 @@ def game_auto(SQUARES_ACROSS):
 
     #calculates and stores possible moves 
     for moveset in knight_moves: 
-
       possible_moves_count = 0;
-
       x1, y1 = playerPos[0] + moveset[0], playerPos[1] + moveset[1] 
       if 0 <= x1 < SQUARES_ACROSS and 0 <= y1 < SQUARES_ACROSS:
         possible_move = [x1, y1]     
@@ -105,23 +103,19 @@ def game_auto(SQUARES_ACROSS):
 
     pygame.display.flip()
 
-  has_run_once = False;
-
 
   while True: 
-
     for event in pygame.event.get():
       if event.type == pygame.QUIT:       
         pygame.quit()
         sys.exit() 
 
-    draw_board(playerPos) 
-    
-    if not has_run_once:
-      has_run_once = True
-
     playerPos = nextmove(chessBoard, playerPos)
-    resetChessBoard(chessBoard)    #removing this removes numbers displaying
-    time.sleep(0)
+    draw_board(playerPos) 
 
+    if all(all(row) for row in chessBoardVisited):  # If all squares visited
+      print("Knight's tour completed!")
+      break
+
+    resetChessBoard(chessBoard)    #removing this removes numbers displaying
 game_auto(8)
