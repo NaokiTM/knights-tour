@@ -116,4 +116,5 @@ def game_auto(SQUARES_ACROSS):
       break
 
     resetChessBoard(chessBoard)    #removing this removes numbers displaying
+    time.sleep(0.1)
 game_auto(8)
