@@ -12,7 +12,6 @@ def game_auto(SQUARES_ACROSS):
       for i in range (len(row)):
         row[i] = 0
 
-  #each square is 30 pixels across 
   PIXELS_ACROSS = SQUARES_ACROSS * 30
   SQUARE_SIZE = PIXELS_ACROSS // SQUARES_ACROSS 
 
@@ -75,7 +74,6 @@ def game_auto(SQUARES_ACROSS):
   
      
   def draw_board(playerPos): 
-    #defines colours and fonts
     font = pygame.font.Font(None, SQUARE_SIZE - 5)
     WHITE = pygame.Color("burlywood1")   
     BLACK = pygame.Color("chocolate4")  
