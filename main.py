@@ -10,6 +10,9 @@ BLACK  = (0, 0, 0)
 WHITE = (255, 255, 255)
 LIGHT_GREY = (20, 20, 20)
 DARK_GREY = (60, 60, 60)
+LIGHT_WOOD = pygame.Color("burlywood1")   
+DARK_WOOD = pygame.Color("chocolate4")  
+VISITEDCOLOUR = pygame.Color("aquamarine4")
 
 def draw_menu():
     font = pygame.font.Font(None, 50)
@@ -19,12 +22,16 @@ def draw_menu():
     menu.center = screen.get_rect().center
 
     # define button rect
-    button = pygame.Rect(0, 0, 160, 45)
-    button.center = (menu.centerx, menu.centery + 50)
+    start_button = pygame.Rect(0, 0, 160, 45)
+    start_button.center = (menu.centerx, menu.centery + 50)
+
+    #define option button rect
+    option_button = pygame.Rect(0, 0, 160, 45)
+    option_button.center = (menu.centerx, menu.centery + 100)
+
 
     while True:
         screen.fill(LIGHT_GREY)
-
         pygame.draw.rect(screen, DARK_GREY, menu)
 
         # render text
@@ -32,26 +39,62 @@ def draw_menu():
         text = font.render("Knight's Tour", True, WHITE)
         screen.blit(text, (100, 100))
 
-        # Button
-        pygame.draw.rect(screen, (100, 100, 100), button)
+        # option button
+        pygame.draw.rect(screen, (100, 100, 100), option_button)
+        button_text = font.render("Options", True, WHITE)
+        button_text_rect = button_text.get_rect(center=option_button.center)
+        screen.blit(button_text, button_text_rect)
 
+        # start Button
+        pygame.draw.rect(screen, (100, 100, 100), start_button)
         button_text = font.render("Start", True, WHITE)
-        button_text_rect = button_text.get_rect(center=button.center)
+        button_text_rect = button_text.get_rect(center=start_button.center)
         screen.blit(button_text, button_text_rect)
 
         # handle menu input
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+              pygame.quit()
+              return
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+              if start_button.collidepoint(event.pos):
+                  game_auto(8)
+                  return
+              if option_button.collidepoint(event.pos):
+                  draw_options()
+
+        pygame.display.flip()
+
+def draw_options():
+
+    while True:
+        screen.fill(LIGHT_GREY)
+
+        font = pygame.font.Font(None, 50)
+
+        text = font.render("Options", True, WHITE)
+        screen.blit(text, (140, 50))
+
+        back_button = pygame.Rect(120, 200, 160, 45)
+        pygame.draw.rect(screen, DARK_GREY, back_button)
+
+        button_text = font.render("Back", True, WHITE)
+        button_rect = button_text.get_rect(center=back_button.center)
+        screen.blit(button_text, button_rect)
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 return
 
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if button.collidepoint(event.pos):
-                    game_auto(8)
+                if back_button.collidepoint(event.pos):
+                    # returns and falls back to the draw_menu function. this prevents stack overflow. 
                     return
 
         pygame.display.flip()
-
+   
 
 def game_auto(SQUARES_ACROSS):
 
@@ -124,9 +167,6 @@ def game_auto(SQUARES_ACROSS):
      
   def draw_board(playerPos): 
     font = pygame.font.Font(None, SQUARE_SIZE - 5)
-    LIGHT_WOOD = pygame.Color("burlywood1")   
-    DARK_WOOD = pygame.Color("chocolate4")  
-    VISITEDCOLOUR = pygame.Color("aquamarine4")
 
     #imports and resizes knight image to fit square
     knight_image_big = pygame.image.load("knight.png")
