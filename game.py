@@ -1,3 +1,10 @@
+
+# CONTAINS FUNCTIONS: 
+# resetChessBoard()
+# nextmove()
+# draw_board()
+# game_auto()
+
 import pygame
 import sys
 import random

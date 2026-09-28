@@ -6,7 +6,11 @@ from game import game_auto
 
 screen = pygame.display.set_mode((400, 300))
 
+
 def draw_menu():
+    # assign in the function to avoid local and global variable conflicts
+    selected_size = 8
+
     font = pygame.font.Font(None, 50)
 
     # define menu rect
@@ -50,10 +54,11 @@ def draw_menu():
               return
 
             if event.type == pygame.MOUSEBUTTONDOWN:
-              if start_button.collidepoint(event.pos):
-                  game_auto(8)
-                  return
               if option_button.collidepoint(event.pos):
-                  draw_options()
+                  selected_size = draw_options(selected_size)
+              if start_button.collidepoint(event.pos):
+                  game_auto(selected_size)
+                  return
+
 
         pygame.display.flip()
