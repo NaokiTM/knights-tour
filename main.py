@@ -4,6 +4,55 @@ import random
 import time
 pygame.init()
 
+screen = pygame.display.set_mode((400, 300))
+
+BLACK  = (0, 0, 0)
+WHITE = (255, 255, 255)
+LIGHT_GREY = (20, 20, 20)
+DARK_GREY = (60, 60, 60)
+
+def draw_menu():
+    font = pygame.font.Font(None, 50)
+
+    # define menu rect
+    menu = pygame.Rect(0, 0, 400, 300)
+    menu.center = screen.get_rect().center
+
+    # define button rect
+    button = pygame.Rect(0, 0, 160, 45)
+    button.center = (menu.centerx, menu.centery + 50)
+
+    while True:
+        screen.fill(LIGHT_GREY)
+
+        pygame.draw.rect(screen, DARK_GREY, menu)
+
+        # render text
+        font = pygame.font.Font(None, 50)
+        text = font.render("Knight's Tour", True, WHITE)
+        screen.blit(text, (100, 100))
+
+        # Button
+        pygame.draw.rect(screen, (100, 100, 100), button)
+
+        button_text = font.render("Start", True, WHITE)
+        button_text_rect = button_text.get_rect(center=button.center)
+        screen.blit(button_text, button_text_rect)
+
+        # handle menu input
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                return
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if button.collidepoint(event.pos):
+                    game_auto(8)
+                    return
+
+        pygame.display.flip()
+
+
 def game_auto(SQUARES_ACROSS):
 
   #every square in the chessboard array is iteratively reset to not store possible moves from the previous turn
@@ -75,8 +124,8 @@ def game_auto(SQUARES_ACROSS):
      
   def draw_board(playerPos): 
     font = pygame.font.Font(None, SQUARE_SIZE - 5)
-    WHITE = pygame.Color("burlywood1")   
-    BLACK = pygame.Color("chocolate4")  
+    LIGHT_WOOD = pygame.Color("burlywood1")   
+    DARK_WOOD = pygame.Color("chocolate4")  
     VISITEDCOLOUR = pygame.Color("aquamarine4")
 
     #imports and resizes knight image to fit square
@@ -91,9 +140,9 @@ def game_auto(SQUARES_ACROSS):
             if chessBoardVisited[x][y] == 1: 
               color = VISITEDCOLOUR 
             elif (x + y) % 2 == 0:
-              color = WHITE
+              color = LIGHT_WOOD
             else:
-              color = BLACK
+              color = DARK_WOOD
 
             #draws each square on to the board, starting from the top left corner
             pygame.draw.rect(
@@ -109,7 +158,7 @@ def game_auto(SQUARES_ACROSS):
               num = chessBoard[x][y]
               num_text = str(num)
 
-              render_num = font.render(num_text, True, (0,0,0))
+              render_num = font.render(num_text, True, BLACK)
 
               #prints the number of moves specified in the chessboard array (num), and blits the number in the center of the corresponding square
               screen.blit(render_num, ((x * SQUARE_SIZE) + SQUARE_SIZE / 2, (y * SQUARE_SIZE) + SQUARE_SIZE / 2))
@@ -139,4 +188,5 @@ def game_auto(SQUARES_ACROSS):
     resetChessBoard(chessBoard)
     time.sleep(0.1)
 
-game_auto(8)
+
+draw_menu()
